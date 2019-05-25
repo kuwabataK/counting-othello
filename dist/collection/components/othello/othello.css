@@ -21,3 +21,25 @@ div.teban.red{
 div.teban.blue{
     color: blue;
 }
+
+.cp_iptxt {
+	/* position: relative;
+	width: 80%;
+	margin: 40px 3%; */
+}
+.cp_iptxt input[type='number'] {
+	font: 12px/20px sans-serif;
+	box-sizing: border-box;
+	width: 10%;
+	padding: 0.3em;
+	transition: 0.3s;
+	letter-spacing: 1px;
+	color: #000;
+	border: 1px solid #1b2538;
+	border-radius: 4px;
+}
+.ef input[type='number']:focus {
+	border: 1px solid #da3c41;
+	outline: none;
+	box-shadow: 0 0 5px 1px rgba(218,60,65, .5);
+}

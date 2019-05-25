@@ -1,0 +1,1 @@
+System.register(["./p-a595df46.system.js"],function(){"use strict";var e,t;return{setters:[function(n){e=n.a,t=n.b}],execute:function(){e().then(function(e){return t([["p-wpnluudx.system",[[1,"ks-othello",{x_length:[2],y_length:[2],field:[32],player:[32],maxval:[32]}]]]],{resourcesUrl:e})})}}});

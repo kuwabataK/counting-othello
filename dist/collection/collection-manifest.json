@@ -1,0 +1,12 @@
+{
+  "entries": [
+    "components/othello/othello.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.0.0-beta.5",
+    "typescriptVersion": "3.4.5"
+  },
+  "collections": [],
+  "bundles": []
+}

@@ -139,7 +139,7 @@ export class Othello {
       <div>{'ブルーのセルの数：' + this.countCellNum('blue')}</div>
       <div>{'レッドのセルの中の合計値：' + this.countCellSum('red')}</div>
       <div>{'ブルーのセルの中の合計値：' + this.countCellSum('blue')}</div>
-      <div>
+      <div class="cp_iptxt">
         許されるセルの値の最大値： 
       <input type="number" value={this.maxval}
           onChange={(event) => { this.handleMaxValChange(event) }} />
