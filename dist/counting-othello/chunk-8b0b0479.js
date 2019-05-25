@@ -17139,34 +17139,138 @@ function generateField(x, y) {
 function calcReverseField(x_position, y_position, field) {
     const pointVal = field[y_position][x_position];
     const newField = lodash.cloneDeep(field);
-    const upArray = [...Array(y_position).keys()].map(i => newField[i][x_position]).reverse();
-    const downArray = [...Array(newField.length - y_position - 1).keys()]
-        .map(i => newField[y_position + 1 + i][x_position]);
-    const rightArray = [...Array(newField[0].length - x_position - 1).keys()]
-        .map(i => newField[y_position][x_position + 1 + i]);
-    const leftArray = [...Array(x_position).keys()].map(i => newField[y_position][i]).reverse();
-    const newUpArr = this.calcReverse(pointVal, upArray);
-    const newDownArr = this.calcReverse(pointVal, downArray);
-    const newRightArr = this.calcReverse(pointVal, rightArray);
-    const newLeftArr = this.calcReverse(pointVal, leftArray);
-    const newXLine = [...newLeftArr.reverse(), pointVal, ...newRightArr];
-    const newYLine = [...newUpArr.reverse(), pointVal, ...newDownArr];
-    newField[y_position] = newXLine;
-    newField.forEach((xArr, i) => xArr[x_position] = newYLine[i]);
+    const upArr = _getArr(x_position, y_position, newField, 0);
+    const dArr = _getArr(x_position, y_position, newField, 4);
+    const rArr = _getArr(x_position, y_position, newField, 2);
+    const lArr = _getArr(x_position, y_position, newField, 6);
+    const urArr = _getArr(x_position, y_position, newField, 1);
+    const drArr = _getArr(x_position, y_position, newField, 3);
+    const dlArr = _getArr(x_position, y_position, newField, 5);
+    const ulArr = _getArr(x_position, y_position, newField, 7);
+    const nupArr = calcReverse(pointVal, upArr);
+    const ndArr = calcReverse(pointVal, dArr);
+    const nrArr = calcReverse(pointVal, rArr);
+    const nlArr = calcReverse(pointVal, lArr);
+    const nurArr = calcReverse(pointVal, urArr);
+    const ndrArr = calcReverse(pointVal, drArr);
+    const ndlArr = calcReverse(pointVal, dlArr);
+    const nulArr = calcReverse(pointVal, ulArr);
+    nupArr.concat(ndArr).concat(nrArr).concat(nlArr)
+        .concat(nurArr).concat(ndrArr).concat(ndlArr).concat(nulArr).forEach(point => newField[point.y][point.x] = point.pointVal);
     return newField;
 }
+function _getArr(x, y, field, dir) {
+    let arr = [];
+    let _x = x;
+    let _y = y;
+    while (_moveAndGetPoint(_x, _y, field, dir).isMove) {
+        console.log('move!!');
+        const p = _moveAndGetPoint(_x, _y, field, dir);
+        arr.push(p);
+        _x = p.x;
+        _y = p.y;
+    }
+    return arr;
+}
+function _moveAndGetPoint(x, y, field, dir) {
+    try {
+        let p = 0;
+        let nx = 0;
+        let ny = 0;
+        switch (dir) {
+            case 0:
+                if (y < 1)
+                    throw new Error();
+                p = field[y - 1][x];
+                nx = x;
+                ny = y - 1;
+                break;
+            case 1:
+                if (y < 1 || field[0].length - 1 < x)
+                    throw new Error();
+                p = field[y - 1][x + 1];
+                nx = x + 1;
+                ny = y - 1;
+                break;
+            case 2:
+                if (field[0].length - 1 < x)
+                    throw new Error();
+                p = field[y][x + 1];
+                nx = x + 1;
+                ny = y;
+                break;
+            case 3:
+                if (field.length - 1 < y || field[0].length - 1 < x)
+                    throw new Error();
+                p = field[y + 1][x + 1];
+                nx = x + 1;
+                ny = y + 1;
+                break;
+            case 4:
+                if (field.length - 1 < y)
+                    throw new Error();
+                p = field[y + 1][x];
+                nx = x;
+                ny = y + 1;
+                break;
+            case 5:
+                if (field.length - 1 < y || x < 1)
+                    throw new Error();
+                p = field[y + 1][x - 1];
+                nx = x - 1;
+                ny = y + 1;
+                break;
+            case 6:
+                if (x < 1)
+                    throw new Error();
+                p = field[y][x - 1];
+                nx = x - 1;
+                ny = y;
+                break;
+            case 7:
+                if (y < 1 || x < 1)
+                    throw new Error();
+                p = field[y - 1][x - 1];
+                nx = x - 1;
+                ny = y - 1;
+                break;
+        }
+        return {
+            x: nx,
+            y: ny,
+            pointVal: p,
+            isMove: true
+        };
+    }
+    catch (e) {
+        console.log('errr');
+        return {
+            x,
+            y,
+            pointVal: field[y][x],
+            isMove: false
+        };
+    }
+}
+/**
+ * 与えられた配列を先頭から評価し、
+ * オセロのルールに従って反転させるコマの値を増やす
+ *
+ * @param pointVal クリックした場所の値
+ * @param arr
+ */
 function calcReverse(pointVal, arr) {
     const newArr = lodash.cloneDeep(arr);
-    for (let i of newArr) {
-        if (newArr.length - 1 < i) {
+    for (let i = 0; i < newArr.length; i++) {
+        if (newArr[i].pointVal === 0) {
             return arr;
         }
-        if (i === 0 || (i + pointVal) % 2 === 0) {
+        if ((newArr[i].pointVal + pointVal) % 2 === 0) {
             break;
         }
-        newArr[i] += 1;
+        newArr[i].pointVal += 1;
     }
     return newArr;
 }
 
-export { generateField as a, calcReverseField as b, lodash as c, format as d };
+export { generateField as a, calcReverseField as b, format as c };

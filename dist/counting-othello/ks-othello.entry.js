@@ -1,5 +1,5 @@
 import { e as registerInstance, f as h } from './counting-othello-a8681c23.js';
-import { a as generateField, b as calcReverseField } from './chunk-45e0a9ea.js';
+import { a as generateField, b as calcReverseField } from './chunk-2a618cd1.js';
 
 class Othello {
     constructor(hostRef) {
@@ -7,11 +7,11 @@ class Othello {
         /**
          * xLength of Field
          */
-        this.x_length = 9;
+        this.x_length = 8;
         /**
          * yLength of Field
          */
-        this.y_length = 9;
+        this.y_length = 8;
         this.field = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
         this.player = 0;
     }

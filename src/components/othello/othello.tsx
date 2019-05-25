@@ -11,12 +11,12 @@ export class Othello {
   /**
    * xLength of Field
    */
-  @Prop() x_length: number = 9
+  @Prop() x_length: number = 8
 
   /**
    * yLength of Field
    */
-  @Prop() y_length: number = 9
+  @Prop() y_length: number = 8
 
   @State() field: number[][] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
