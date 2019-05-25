@@ -105,12 +105,12 @@ export class Othello {
             h("div", { class: ['teban',
                     this.player === 0 ? 'red' : 'blue'
                 ].join(' ') }, this.player === 0
-                ? 'レッドの番だよ!!'
-                : 'ブルーの番だよ！！'),
-            h("div", null, 'レッドのセルの数：' + this.countCellNum('red')),
-            h("div", null, 'ブルーのセルの数：' + this.countCellNum('blue')),
-            h("div", null, 'レッドのセルの中の合計値：' + this.countCellSum('red')),
-            h("div", null, 'ブルーのセルの中の合計値：' + this.countCellSum('blue')),
+                ? '赤の番だよ!!'
+                : '青の番だよ！！'),
+            h("div", null, 'redのセルの数：' + this.countCellNum('red')),
+            h("div", null, 'blueのセルの数：' + this.countCellNum('blue')),
+            h("div", null, 'redのセルの中の合計値：' + this.countCellSum('red')),
+            h("div", null, 'blueのセルの中の合計値：' + this.countCellSum('blue')),
             h("div", { class: "cp_iptxt" },
                 "\u8A31\u3055\u308C\u308B\u30BB\u30EB\u306E\u5024\u306E\u6700\u5927\u5024\uFF1A",
                 h("input", { type: "number", value: this.maxval, onChange: (event) => { this.handleMaxValChange(event); } })),

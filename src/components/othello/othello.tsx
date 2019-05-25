@@ -138,12 +138,12 @@ export class Othello {
         this.player === 0 ? 'red' : 'blue'
       ].join(' ')} >
         {this.player === 0
-          ? 'レッドの番だよ!!'
-          : 'ブルーの番だよ！！'}</div>
-      <div>{'レッドのセルの数：' + this.countCellNum('red')}</div>
-      <div>{'ブルーのセルの数：' + this.countCellNum('blue')}</div>
-      <div>{'レッドのセルの中の合計値：' + this.countCellSum('red')}</div>
-      <div>{'ブルーのセルの中の合計値：' + this.countCellSum('blue')}</div>
+          ? '赤の番だよ!!'
+          : '青の番だよ！！'}</div>
+      <div>{'redのセルの数：' + this.countCellNum('red')}</div>
+      <div>{'blueのセルの数：' + this.countCellNum('blue')}</div>
+      <div>{'redのセルの中の合計値：' + this.countCellSum('red')}</div>
+      <div>{'blueのセルの中の合計値：' + this.countCellSum('blue')}</div>
       <div class="cp_iptxt">
         許されるセルの値の最大値：
       <input type="number" value={this.maxval}

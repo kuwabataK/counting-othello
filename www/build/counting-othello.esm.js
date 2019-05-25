@@ -1,1 +1,1 @@
-import{a as e,b as l}from"./p-badd1469.js";e().then(e=>l([["p-l6wxedbb",[[1,"ks-othello",{x_length:[2],y_length:[2],field:[32],player:[32],maxval:[32]}]]]],{resourcesUrl:e}));
+import{a as e,b as l}from"./p-badd1469.js";e().then(e=>l([["p-bdjpjnir",[[1,"ks-othello",{x_length:[2],y_length:[2],field:[32],player:[32],maxval:[32]}]]]],{resourcesUrl:e}));
