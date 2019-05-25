@@ -1,18 +1,20 @@
 export declare class Othello {
     /**
-     * The first name
+     * xLength of Field
      */
-    x: number;
+    x_length: number;
     /**
-     * The middle name
+     * yLength of Field
      */
-    y: number;
+    y_length: number;
     field: number[][];
+    player: 0 | 1;
     /**
      * コンポーネントロード時発火する関数
      */
     componentWillLoad(): void;
     xWatch(): void;
     yWatch(): void;
+    private clickSlot;
     render(): any;
 }

@@ -1,5 +1,5 @@
 import { e as registerInstance, f as h } from './counting-othello-a8681c23.js';
-import { b as format } from './chunk-03ed7dbe.js';
+import { c as format } from './chunk-45e0a9ea.js';
 
 class MyComponent {
     constructor(hostRef) {

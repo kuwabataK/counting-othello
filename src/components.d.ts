@@ -11,13 +11,13 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface KsOthello {
     /**
-    * The first name
+    * xLength of Field
     */
-    'x': number;
+    'x_length': number;
     /**
-    * The middle name
+    * yLength of Field
     */
-    'y': number;
+    'y_length': number;
   }
   interface MyComponent {
     /**
@@ -38,13 +38,13 @@ export namespace Components {
 declare namespace LocalJSX {
   interface KsOthello extends JSXBase.HTMLAttributes {
     /**
-    * The first name
+    * xLength of Field
     */
-    'x'?: number;
+    'x_length'?: number;
     /**
-    * The middle name
+    * yLength of Field
     */
-    'y'?: number;
+    'y_length'?: number;
   }
   interface MyComponent extends JSXBase.HTMLAttributes {
     /**
