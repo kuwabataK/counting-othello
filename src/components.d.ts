@@ -19,20 +19,6 @@ export namespace Components {
     */
     'y_length': number;
   }
-  interface MyComponent {
-    /**
-    * The first name
-    */
-    'first': string;
-    /**
-    * The last name
-    */
-    'last': string;
-    /**
-    * The middle name
-    */
-    'middle': string;
-  }
 }
 
 declare namespace LocalJSX {
@@ -46,24 +32,9 @@ declare namespace LocalJSX {
     */
     'y_length'?: number;
   }
-  interface MyComponent extends JSXBase.HTMLAttributes {
-    /**
-    * The first name
-    */
-    'first'?: string;
-    /**
-    * The last name
-    */
-    'last'?: string;
-    /**
-    * The middle name
-    */
-    'middle'?: string;
-  }
 
   interface IntrinsicElements {
     'ks-othello': KsOthello;
-    'my-component': MyComponent;
   }
 }
 
@@ -87,15 +58,8 @@ declare global {
     new (): HTMLKsOthelloElement;
   };
 
-  interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {}
-  var HTMLMyComponentElement: {
-    prototype: HTMLMyComponentElement;
-    new (): HTMLMyComponentElement;
-  };
-
   interface HTMLElementTagNameMap {
     'ks-othello': HTMLKsOthelloElement;
-    'my-component': HTMLMyComponentElement;
   }
 
   interface ElementTagNameMap extends HTMLElementTagNameMap {}

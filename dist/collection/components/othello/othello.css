@@ -1,1 +1,23 @@
+table{
+    width: 400px;
+    height: 400px;
+}
 
+
+th.cell.use.red {
+    background: red;
+    color: #fff;
+}
+th.cell.use.blue {
+    background: blue;
+    color: #fff;
+}
+th.cell.unuse {
+    background: gray;
+}
+div.teban.red{
+    color: red;
+}
+div.teban.blue{
+    color: blue;
+}

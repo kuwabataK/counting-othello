@@ -1,21 +1,23 @@
 import _ from 'lodash'
 
-export function format(first: string, middle: string, last: string): string {
-  return (
-    (first || '') +
-    (middle ? ` ${middle}` : '') +
-    (last ? ` ${last}` : '')
-  );
-}
-
-
 export function generateField(x: number, y: number): number[][] {
+  let _x = x
+  let _y = y
+
+  if (_x < 4) _x = 4
+  if (_y < 4) _y = 4
+
   const xArray = new Array(x).fill(0)
   const yArray = new Array(y).fill(0)
-  return yArray.map(() => _.clone(xArray))
+  const field = yArray.map(() => _.clone(xArray))
+  field[x / 2][y / 2] = 1
+  field[x / 2 - 1][y / 2 - 1] = 1
+  field[x / 2 - 1][y / 2] = 2
+  field[x / 2][y / 2 - 1] = 2
+  return field
 }
 
-export function calcReverseField(x_position: number, y_position: number, field: number[][]) {
+export function calcReverseField(x_position: number, y_position: number, field: number[][], maxVal = 1000) {
 
   const pointVal = field[y_position][x_position]
   const newField = _.cloneDeep(field)
@@ -29,14 +31,14 @@ export function calcReverseField(x_position: number, y_position: number, field: 
   const dlArr = _getArr(x_position, y_position, newField, 5)
   const ulArr = _getArr(x_position, y_position, newField, 7)
 
-  const nupArr = calcReverse(pointVal, upArr)
-  const ndArr = calcReverse(pointVal, dArr)
-  const nrArr = calcReverse(pointVal, rArr)
-  const nlArr = calcReverse(pointVal, lArr)
-  const nurArr = calcReverse(pointVal, urArr)
-  const ndrArr = calcReverse(pointVal, drArr)
-  const ndlArr = calcReverse(pointVal, dlArr)
-  const nulArr = calcReverse(pointVal, ulArr)
+  const nupArr = calcReverse(pointVal, upArr, maxVal)
+  const ndArr = calcReverse(pointVal, dArr, maxVal)
+  const nrArr = calcReverse(pointVal, rArr, maxVal)
+  const nlArr = calcReverse(pointVal, lArr, maxVal)
+  const nurArr = calcReverse(pointVal, urArr, maxVal)
+  const ndrArr = calcReverse(pointVal, drArr, maxVal)
+  const ndlArr = calcReverse(pointVal, dlArr, maxVal)
+  const nulArr = calcReverse(pointVal, ulArr, maxVal)
 
   nupArr.concat(ndArr).concat(nrArr).concat(nlArr)
     .concat(nurArr).concat(ndrArr).concat(ndlArr).concat(nulArr).forEach(point =>
@@ -73,31 +75,31 @@ export function _moveAndGetPoint(x: number, y: number, field: number[][],
         ny = y - 1
         break;
       case 1:
-        if (y < 1 || field[0].length - 1 < x) throw new Error()
+        if (y < 1 || field[0].length - 1 <= x) throw new Error()
         p = field[y - 1][x + 1]
         nx = x + 1
         ny = y - 1
         break
       case 2:
-        if (field[0].length - 1 < x) throw new Error()
+        if (field[0].length - 1 <= x) throw new Error()
         p = field[y][x + 1]
         nx = x + 1
         ny = y
         break
       case 3:
-        if (field.length - 1 < y || field[0].length - 1 < x) throw new Error()
+        if (field.length - 1 <= y || field[0].length - 1 <= x) throw new Error()
         p = field[y + 1][x + 1]
         nx = x + 1
         ny = y + 1
         break
       case 4:
-        if (field.length - 1 < y) throw new Error()
+        if (field.length - 1 <= y) throw new Error()
         p = field[y + 1][x]
         nx = x
         ny = y + 1
         break
       case 5:
-        if (field.length - 1 < y || x < 1) throw new Error()
+        if (field.length - 1 <= y || x < 1) throw new Error()
         p = field[y + 1][x - 1]
         nx = x - 1
         ny = y + 1
@@ -141,13 +143,26 @@ export function _moveAndGetPoint(x: number, y: number, field: number[][],
  * @param pointVal クリックした場所の値
  * @param arr 
  */
-export function calcReverse(pointVal: number, arr: PointObj[]) {
+export function calcReverse(pointVal: number, arr: PointObj[], maxVal = 1000) {
   const newArr = _.cloneDeep(arr)
 
   for (let i = 0; i < newArr.length; i++) {
-    if (newArr[i].pointVal === 0) {
+
+    //最後まで自分の駒が見つからない場合はもとの配列を返す
+    if (newArr.length - 1 === i) {
       return arr
     }
+
+    // 途中で空白の駒があった場合はもとの配列を返す
+    if (newArr[i].pointVal === 0 ) {
+      return arr
+    }
+
+    // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
+    if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1){
+      return arr
+    } 
+
     if ((newArr[i].pointVal + pointVal) % 2 === 0) {
       break;
     }
@@ -157,8 +172,8 @@ export function calcReverse(pointVal: number, arr: PointObj[]) {
 }
 
 interface PointObj {
-  x: number,
-  y: number,
-  pointVal: number,
-  isMove: boolean,
+  x: number, //対象のセルのX座標
+  y: number, // 対象のセルのY座標
+  pointVal: number, // 対象のセルの値
+  isMove: boolean, // 指定した方向に移動できるかどうか
 }
