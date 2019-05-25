@@ -31,6 +31,8 @@ export function calcReverseField(x_position: number, y_position: number, field: 
   const dlArr = _getArr(x_position, y_position, newField, 5)
   const ulArr = _getArr(x_position, y_position, newField, 7)
 
+  console.log(dlArr)
+
   const nupArr = calcReverse(pointVal, upArr, maxVal)
   const ndArr = calcReverse(pointVal, dArr, maxVal)
   const nrArr = calcReverse(pointVal, rArr, maxVal)
@@ -148,24 +150,26 @@ export function calcReverse(pointVal: number, arr: PointObj[], maxVal = 1000) {
 
   for (let i = 0; i < newArr.length; i++) {
 
+    // 途中で空白の駒があった場合はもとの配列を返す
+    if (newArr[i].pointVal === 0) {
+      return arr
+    }
+
+    // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
+    if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
+      return arr
+    }
+
+    // 自分の駒が見つかった場合は処理を中断して新しい配列を返す
+    if ((newArr[i].pointVal + pointVal) % 2 === 0) {
+      break;
+    }
+
     //最後まで自分の駒が見つからない場合はもとの配列を返す
     if (newArr.length - 1 === i) {
       return arr
     }
 
-    // 途中で空白の駒があった場合はもとの配列を返す
-    if (newArr[i].pointVal === 0 ) {
-      return arr
-    }
-
-    // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
-    if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1){
-      return arr
-    } 
-
-    if ((newArr[i].pointVal + pointVal) % 2 === 0) {
-      break;
-    }
     newArr[i].pointVal += 1
   }
   return newArr

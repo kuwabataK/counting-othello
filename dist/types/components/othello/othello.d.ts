@@ -24,7 +24,16 @@ export declare class Othello {
      * @param y
      */
     private clickSlot;
+    /**
+     * 各色のコマの数を返す
+     * @param color
+     */
     private countCellNum;
+    /**
+   * 各色の値の合計値を返す
+   * @param color
+   */
+    private countCellSum;
     /**
    * inputの中身が変わったときに結果を再計算し、
    * changeResultイベントを発火して呼び出し元に伝える

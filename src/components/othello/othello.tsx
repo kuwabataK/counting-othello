@@ -67,6 +67,10 @@ export class Othello {
     this.player = this.player === 1 ? 0 : 1
   }
 
+  /**
+   * 各色のコマの数を返す
+   * @param color 
+   */
   private countCellNum(color: 'blue' | 'red') {
     if (color === 'red') {
       return _.flatten(this.field).reduce((acc, cur) => {
@@ -75,6 +79,22 @@ export class Othello {
     } else {
       return _.flatten(this.field).reduce((acc, cur) => {
         return cur !== 0 && cur % 2 === 0 ? acc + 1 : acc
+      })
+    }
+  }
+
+  /**
+ * 各色の値の合計値を返す
+ * @param color 
+ */
+  private countCellSum(color: 'blue' | 'red') {
+    if (color === 'red') {
+      return _.flatten(this.field).reduce((acc, cur) => {
+        return cur % 2 === 1 ? acc + cur : acc
+      })
+    } else {
+      return _.flatten(this.field).reduce((acc, cur) => {
+        return cur % 2 === 0 ? acc + cur : acc
       })
     }
   }
@@ -115,9 +135,15 @@ export class Othello {
         {this.player === 0
           ? 'レッドの番だよ!!'
           : 'ブルーの番だよ！！'}</div>
-      <div>{'レッドの数：' + this.countCellNum('red')}</div>
-      <div>{'ブルーの数：' + this.countCellNum('blue')}</div>
-      <input type="number" value={this.maxval} onChange={(event) => { this.handleMaxValChange(event) }} />
+      <div>{'レッドのセルの数：' + this.countCellNum('red')}</div>
+      <div>{'ブルーのセルの数：' + this.countCellNum('blue')}</div>
+      <div>{'レッドのセルの中の合計値：' + this.countCellSum('red')}</div>
+      <div>{'ブルーのセルの中の合計値：' + this.countCellSum('blue')}</div>
+      <div>
+        許されるセルの値の最大値： 
+      <input type="number" value={this.maxval}
+          onChange={(event) => { this.handleMaxValChange(event) }} />
+      </div>
     </div>
   }
 }

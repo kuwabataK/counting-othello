@@ -17155,6 +17155,7 @@ function calcReverseField(x_position, y_position, field, maxVal = 1000) {
     const drArr = _getArr(x_position, y_position, newField, 3);
     const dlArr = _getArr(x_position, y_position, newField, 5);
     const ulArr = _getArr(x_position, y_position, newField, 7);
+    console.log(dlArr);
     const nupArr = calcReverse(pointVal, upArr, maxVal);
     const ndArr = calcReverse(pointVal, dArr, maxVal);
     const nrArr = calcReverse(pointVal, rArr, maxVal);
@@ -17268,10 +17269,6 @@ function _moveAndGetPoint(x, y, field, dir) {
 function calcReverse(pointVal, arr, maxVal = 1000) {
     const newArr = lodash.cloneDeep(arr);
     for (let i = 0; i < newArr.length; i++) {
-        //最後まで自分の駒が見つからない場合はもとの配列を返す
-        if (newArr.length - 1 === i) {
-            return arr;
-        }
         // 途中で空白の駒があった場合はもとの配列を返す
         if (newArr[i].pointVal === 0) {
             return arr;
@@ -17280,8 +17277,13 @@ function calcReverse(pointVal, arr, maxVal = 1000) {
         if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
             return arr;
         }
+        // 自分の駒が見つかった場合は処理を中断して新しい配列を返す
         if ((newArr[i].pointVal + pointVal) % 2 === 0) {
             break;
+        }
+        //最後まで自分の駒が見つからない場合はもとの配列を返す
+        if (newArr.length - 1 === i) {
+            return arr;
         }
         newArr[i].pointVal += 1;
     }
@@ -17337,6 +17339,10 @@ class Othello {
         this.field = newField;
         this.player = this.player === 1 ? 0 : 1;
     }
+    /**
+     * 各色のコマの数を返す
+     * @param color
+     */
     countCellNum(color) {
         if (color === 'red') {
             return lodash.flatten(this.field).reduce((acc, cur) => {
@@ -17346,6 +17352,22 @@ class Othello {
         else {
             return lodash.flatten(this.field).reduce((acc, cur) => {
                 return cur !== 0 && cur % 2 === 0 ? acc + 1 : acc;
+            });
+        }
+    }
+    /**
+   * 各色の値の合計値を返す
+   * @param color
+   */
+    countCellSum(color) {
+        if (color === 'red') {
+            return lodash.flatten(this.field).reduce((acc, cur) => {
+                return cur % 2 === 1 ? acc + cur : acc;
+            });
+        }
+        else {
+            return lodash.flatten(this.field).reduce((acc, cur) => {
+                return cur % 2 === 0 ? acc + cur : acc;
             });
         }
     }
@@ -17367,7 +17389,7 @@ class Othello {
                 this.player === 0 ? 'red' : 'blue'
             ].join(' ') }, this.player === 0
             ? 'レッドの番だよ!!'
-            : 'ブルーの番だよ！！'), h("div", null, 'レッドの数：' + this.countCellNum('red')), h("div", null, 'ブルーの数：' + this.countCellNum('blue')), h("input", { type: "number", value: this.maxval, onChange: (event) => { this.handleMaxValChange(event); } }));
+            : 'ブルーの番だよ！！'), h("div", null, 'レッドのセルの数：' + this.countCellNum('red')), h("div", null, 'ブルーのセルの数：' + this.countCellNum('blue')), h("div", null, 'レッドのセルの中の合計値：' + this.countCellSum('red')), h("div", null, 'ブルーのセルの中の合計値：' + this.countCellSum('blue')), h("div", null, "\u8A31\u3055\u308C\u308B\u30BB\u30EB\u306E\u5024\u306E\u6700\u5927\u5024\uFF1A", h("input", { type: "number", value: this.maxval, onChange: (event) => { this.handleMaxValChange(event); } })));
     }
     static get watchers() { return {
         "x": ["xWatch"],
