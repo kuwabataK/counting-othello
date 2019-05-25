@@ -109,6 +109,11 @@ export class Othello {
     this.maxval = event.target["value"]
   }
 
+  private reset() {
+    this.field = generateField(this.x_length, this.y_length)
+    this.player = 0
+  }
+
   render() {
     return <div>
       <table>
@@ -140,10 +145,11 @@ export class Othello {
       <div>{'レッドのセルの中の合計値：' + this.countCellSum('red')}</div>
       <div>{'ブルーのセルの中の合計値：' + this.countCellSum('blue')}</div>
       <div class="cp_iptxt">
-        許されるセルの値の最大値： 
+        許されるセルの値の最大値：
       <input type="number" value={this.maxval}
           onChange={(event) => { this.handleMaxValChange(event) }} />
       </div>
+      <button class="btn-square-little-rich" onClick={() => this.reset()}>リセット</button>
     </div>
   }
 }

@@ -15829,6 +15829,10 @@ var Othello = /** @class */ (function () {
     Othello.prototype.handleMaxValChange = function (event) {
         this.maxval = event.target["value"];
     };
+    Othello.prototype.reset = function () {
+        this.field = generateField(this.x_length, this.y_length);
+        this.player = 0;
+    };
     Othello.prototype.render = function () {
         var _this = this;
         return h("div", null, h("table", null, this.field.map(function (xArr, yIndex) { return h("tr", null, xArr.map(function (num, xIndex) { return h("th", { class: [
@@ -15839,7 +15843,7 @@ var Othello = /** @class */ (function () {
                 this.player === 0 ? 'red' : 'blue'
             ].join(' ') }, this.player === 0
             ? 'レッドの番だよ!!'
-            : 'ブルーの番だよ！！'), h("div", null, 'レッドのセルの数：' + this.countCellNum('red')), h("div", null, 'ブルーのセルの数：' + this.countCellNum('blue')), h("div", null, 'レッドのセルの中の合計値：' + this.countCellSum('red')), h("div", null, 'ブルーのセルの中の合計値：' + this.countCellSum('blue')), h("div", { class: "cp_iptxt" }, "\u8A31\u3055\u308C\u308B\u30BB\u30EB\u306E\u5024\u306E\u6700\u5927\u5024\uFF1A", h("input", { type: "number", value: this.maxval, onChange: function (event) { _this.handleMaxValChange(event); } })));
+            : 'ブルーの番だよ！！'), h("div", null, 'レッドのセルの数：' + this.countCellNum('red')), h("div", null, 'ブルーのセルの数：' + this.countCellNum('blue')), h("div", null, 'レッドのセルの中の合計値：' + this.countCellSum('red')), h("div", null, 'ブルーのセルの中の合計値：' + this.countCellSum('blue')), h("div", { class: "cp_iptxt" }, "\u8A31\u3055\u308C\u308B\u30BB\u30EB\u306E\u5024\u306E\u6700\u5927\u5024\uFF1A", h("input", { type: "number", value: this.maxval, onChange: function (event) { _this.handleMaxValChange(event); } })), h("button", { class: "btn-square-little-rich", onClick: function () { return _this.reset(); } }, "\u30EA\u30BB\u30C3\u30C8"));
     };
     Object.defineProperty(Othello, "watchers", {
         get: function () {
@@ -15852,7 +15856,7 @@ var Othello = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Othello, "style", {
-        get: function () { return "table{width:400px;height:400px}th.cell.use.red{background:red;color:#fff}th.cell.use.blue{background:#00f;color:#fff}th.cell.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}"; },
+        get: function () { return "table{width:400px;height:400px}th.cell.use.red{background:red;color:#fff}th.cell.use.blue{background:#00f;color:#fff}th.cell.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}.btn-square{display:inline-block;padding:.5em 1em;text-decoration:none;background:#668ad8;color:#fff;border-bottom:4px solid #627295;border-radius:3px}.btn-square:active{-webkit-transform:translateY(4px);transform:translateY(4px);border-bottom:none}.btn-square-little-rich{position:relative;display:inline-block;padding:.25em .5em;text-decoration:none;color:#fff;background:#03a9f4;border:1px solid #0f9ada;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);text-shadow:0 1px 0 rgba(0,0,0,.2)}.btn-square-little-rich:active{border:1px solid #03a9f4;-webkit-box-shadow:none;box-shadow:none;text-shadow:none}"; },
         enumerable: true,
         configurable: true
     });

@@ -90,6 +90,10 @@ export class Othello {
     handleMaxValChange(event) {
         this.maxval = event.target["value"];
     }
+    reset() {
+        this.field = generateField(this.x_length, this.y_length);
+        this.player = 0;
+    }
     render() {
         return h("div", null,
             h("table", null, this.field.map((xArr, yIndex) => h("tr", null, xArr.map((num, xIndex) => h("th", { class: [
@@ -109,7 +113,8 @@ export class Othello {
             h("div", null, 'ブルーのセルの中の合計値：' + this.countCellSum('blue')),
             h("div", { class: "cp_iptxt" },
                 "\u8A31\u3055\u308C\u308B\u30BB\u30EB\u306E\u5024\u306E\u6700\u5927\u5024\uFF1A",
-                h("input", { type: "number", value: this.maxval, onChange: (event) => { this.handleMaxValChange(event); } })));
+                h("input", { type: "number", value: this.maxval, onChange: (event) => { this.handleMaxValChange(event); } })),
+            h("button", { class: "btn-square-little-rich", onClick: () => this.reset() }, "\u30EA\u30BB\u30C3\u30C8"));
     }
     static get is() { return "ks-othello"; }
     static get encapsulation() { return "shadow"; }

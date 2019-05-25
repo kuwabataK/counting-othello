@@ -41,5 +41,6 @@ export declare class Othello {
    * @param event
    */
     handleMaxValChange(event: Event): void;
+    private reset;
     render(): any;
 }
