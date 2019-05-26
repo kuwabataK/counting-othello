@@ -17237,8 +17237,8 @@ function calcReverse(pointVal, arr, maxVal = 1000) {
         if (newArr[i].pointVal === 0) {
             return arr;
         }
-        // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
-        if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
+        // であった駒が上限値に達していた場合はひっくり返せないようにする
+        if (newArr[i].pointVal >= maxVal) {
             return arr;
         }
         // 自分の駒が見つかった場合は処理を中断して新しい配列を返す
@@ -17310,12 +17310,12 @@ class Othello {
     countCellNum(color) {
         if (color === 'red') {
             return lodash.flatten(this.field).reduce((acc, cur) => {
-                return cur % 2 === 1 ? acc + 1 : acc;
+                return cur < this.maxval && cur % 2 === 1 ? acc + 1 : acc;
             });
         }
         else {
             return lodash.flatten(this.field).reduce((acc, cur) => {
-                return cur !== 0 && cur % 2 === 0 ? acc + 1 : acc;
+                return cur < this.maxval && cur !== 0 && cur % 2 === 0 ? acc + 1 : acc;
             });
         }
     }
@@ -17326,12 +17326,12 @@ class Othello {
     countCellSum(color) {
         if (color === 'red') {
             return lodash.flatten(this.field).reduce((acc, cur) => {
-                return cur % 2 === 1 ? acc + cur : acc;
+                return cur < this.maxval && cur % 2 === 1 ? acc + cur : acc;
             });
         }
         else {
             return lodash.flatten(this.field).reduce((acc, cur) => {
-                return cur % 2 === 0 ? acc + cur : acc;
+                return cur < this.maxval && cur % 2 === 0 ? acc + cur : acc;
             });
         }
     }
@@ -17351,7 +17351,8 @@ class Othello {
     render() {
         return __chunk_1.h("div", null, __chunk_1.h("table", null, this.field.map((xArr, yIndex) => __chunk_1.h("tr", null, xArr.map((num, xIndex) => __chunk_1.h("th", { class: [
                 'cell',
-                num === 0 ? 'unuse' : 'use',
+                num >= this.maxval ? 'maxval' : 'nonmax',
+                num !== 0 ? 'use' : 'unuse',
                 num % 2 === 0 ? 'blue' : 'red'
             ].join(' '), onClick: (e) => this.clickSlot(e, xIndex, yIndex) }, __chunk_1.h("div", null, num)))))), __chunk_1.h("div", { class: ['teban',
                 this.player === 0 ? 'red' : 'blue'
@@ -17363,7 +17364,7 @@ class Othello {
         "x": ["xWatch"],
         "y": ["yWatch"]
     }; }
-    static get style() { return "table{width:400px;height:400px}th.cell.use.red{background:red;color:#fff}th.cell.use.blue{background:#00f;color:#fff}th.cell.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}.btn-square{display:inline-block;padding:.5em 1em;text-decoration:none;background:#668ad8;color:#fff;border-bottom:4px solid #627295;border-radius:3px}.btn-square:active{-webkit-transform:translateY(4px);transform:translateY(4px);border-bottom:none}.btn-square-little-rich{position:relative;display:inline-block;padding:.25em .5em;text-decoration:none;color:#fff;background:#03a9f4;border:1px solid #0f9ada;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);text-shadow:0 1px 0 rgba(0,0,0,.2)}.btn-square-little-rich:active{border:1px solid #03a9f4;-webkit-box-shadow:none;box-shadow:none;text-shadow:none}"; }
+    static get style() { return "table{width:400px;height:400px}th.cell.maxval{background:orange;color:#fff}th.cell.nonmax.use.red{background:red;color:#fff}th.cell.nonmax.use.blue{background:#00f;color:#fff}th.cell.nonmax.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}.btn-square{display:inline-block;padding:.5em 1em;text-decoration:none;background:#668ad8;color:#fff;border-bottom:4px solid #627295;border-radius:3px}.btn-square:active{-webkit-transform:translateY(4px);transform:translateY(4px);border-bottom:none}.btn-square-little-rich{position:relative;display:inline-block;padding:.25em .5em;text-decoration:none;color:#fff;background:#03a9f4;border:1px solid #0f9ada;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);text-shadow:0 1px 0 rgba(0,0,0,.2)}.btn-square-little-rich:active{border:1px solid #03a9f4;-webkit-box-shadow:none;box-shadow:none;text-shadow:none}"; }
 }
 
 exports.ks_othello = Othello;

@@ -15723,8 +15723,8 @@ function calcReverse(pointVal, arr, maxVal) {
         if (newArr[i].pointVal === 0) {
             return arr;
         }
-        // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
-        if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
+        // であった駒が上限値に達していた場合はひっくり返せないようにする
+        if (newArr[i].pointVal >= maxVal) {
             return arr;
         }
         // 自分の駒が見つかった場合は処理を中断して新しい配列を返す
@@ -15793,14 +15793,15 @@ var Othello = /** @class */ (function () {
      * @param color
      */
     Othello.prototype.countCellNum = function (color) {
+        var _this = this;
         if (color === 'red') {
             return lodash.flatten(this.field).reduce(function (acc, cur) {
-                return cur % 2 === 1 ? acc + 1 : acc;
+                return cur < _this.maxval && cur % 2 === 1 ? acc + 1 : acc;
             });
         }
         else {
             return lodash.flatten(this.field).reduce(function (acc, cur) {
-                return cur !== 0 && cur % 2 === 0 ? acc + 1 : acc;
+                return cur < _this.maxval && cur !== 0 && cur % 2 === 0 ? acc + 1 : acc;
             });
         }
     };
@@ -15809,14 +15810,15 @@ var Othello = /** @class */ (function () {
    * @param color
    */
     Othello.prototype.countCellSum = function (color) {
+        var _this = this;
         if (color === 'red') {
             return lodash.flatten(this.field).reduce(function (acc, cur) {
-                return cur % 2 === 1 ? acc + cur : acc;
+                return cur < _this.maxval && cur % 2 === 1 ? acc + cur : acc;
             });
         }
         else {
             return lodash.flatten(this.field).reduce(function (acc, cur) {
-                return cur % 2 === 0 ? acc + cur : acc;
+                return cur < _this.maxval && cur % 2 === 0 ? acc + cur : acc;
             });
         }
     };
@@ -15837,7 +15839,8 @@ var Othello = /** @class */ (function () {
         var _this = this;
         return h("div", null, h("table", null, this.field.map(function (xArr, yIndex) { return h("tr", null, xArr.map(function (num, xIndex) { return h("th", { class: [
                 'cell',
-                num === 0 ? 'unuse' : 'use',
+                num >= _this.maxval ? 'maxval' : 'nonmax',
+                num !== 0 ? 'use' : 'unuse',
                 num % 2 === 0 ? 'blue' : 'red'
             ].join(' '), onClick: function (e) { return _this.clickSlot(e, xIndex, yIndex); } }, h("div", null, num)); })); })), h("div", { class: ['teban',
                 this.player === 0 ? 'red' : 'blue'
@@ -15856,7 +15859,7 @@ var Othello = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Othello, "style", {
-        get: function () { return "table{width:400px;height:400px}th.cell.use.red{background:red;color:#fff}th.cell.use.blue{background:#00f;color:#fff}th.cell.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}.btn-square{display:inline-block;padding:.5em 1em;text-decoration:none;background:#668ad8;color:#fff;border-bottom:4px solid #627295;border-radius:3px}.btn-square:active{-webkit-transform:translateY(4px);transform:translateY(4px);border-bottom:none}.btn-square-little-rich{position:relative;display:inline-block;padding:.25em .5em;text-decoration:none;color:#fff;background:#03a9f4;border:1px solid #0f9ada;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);text-shadow:0 1px 0 rgba(0,0,0,.2)}.btn-square-little-rich:active{border:1px solid #03a9f4;-webkit-box-shadow:none;box-shadow:none;text-shadow:none}"; },
+        get: function () { return "table{width:400px;height:400px}th.cell.maxval{background:orange;color:#fff}th.cell.nonmax.use.red{background:red;color:#fff}th.cell.nonmax.use.blue{background:#00f;color:#fff}th.cell.nonmax.unuse{background:grey}div.teban.red{color:red}div.teban.blue{color:#00f}.cp_iptxt input[type=number]{font:12px/20px sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;width:10%;padding:.3em;-webkit-transition:.3s;transition:.3s;letter-spacing:1px;color:#000;border:1px solid #1b2538;border-radius:4px}.ef input[type=number]:focus{border:1px solid #da3c41;outline:none;-webkit-box-shadow:0 0 5px 1px rgba(218,60,65,.5);box-shadow:0 0 5px 1px rgba(218,60,65,.5)}.btn-square{display:inline-block;padding:.5em 1em;text-decoration:none;background:#668ad8;color:#fff;border-bottom:4px solid #627295;border-radius:3px}.btn-square:active{-webkit-transform:translateY(4px);transform:translateY(4px);border-bottom:none}.btn-square-little-rich{position:relative;display:inline-block;padding:.25em .5em;text-decoration:none;color:#fff;background:#03a9f4;border:1px solid #0f9ada;border-radius:4px;-webkit-box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);box-shadow:inset 0 1px 0 hsla(0,0%,100%,.2);text-shadow:0 1px 0 rgba(0,0,0,.2)}.btn-square-little-rich:active{border:1px solid #03a9f4;-webkit-box-shadow:none;box-shadow:none;text-shadow:none}"; },
         enumerable: true,
         configurable: true
     });

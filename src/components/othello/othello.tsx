@@ -74,11 +74,11 @@ export class Othello {
   private countCellNum(color: 'blue' | 'red') {
     if (color === 'red') {
       return _.flatten(this.field).reduce((acc, cur) => {
-        return cur % 2 === 1 ? acc + 1 : acc
+        return cur < this.maxval && cur % 2 === 1 ? acc + 1 : acc
       })
     } else {
       return _.flatten(this.field).reduce((acc, cur) => {
-        return cur !== 0 && cur % 2 === 0 ? acc + 1 : acc
+        return cur < this.maxval && cur !== 0 && cur % 2 === 0 ? acc + 1 : acc
       })
     }
   }
@@ -90,11 +90,11 @@ export class Othello {
   private countCellSum(color: 'blue' | 'red') {
     if (color === 'red') {
       return _.flatten(this.field).reduce((acc, cur) => {
-        return cur % 2 === 1 ? acc + cur : acc
+        return cur < this.maxval && cur % 2 === 1 ? acc + cur : acc
       })
     } else {
       return _.flatten(this.field).reduce((acc, cur) => {
-        return cur % 2 === 0 ? acc + cur : acc
+        return cur < this.maxval && cur % 2 === 0 ? acc + cur : acc
       })
     }
   }
@@ -122,7 +122,8 @@ export class Othello {
             {xArr.map((num, xIndex) =>
               <th class={[
                 'cell',
-                num === 0 ? 'unuse' : 'use',
+                num >= this.maxval ? 'maxval' : 'nonmax',
+                num !== 0 ? 'use' : 'unuse',
                 num % 2 === 0 ? 'blue' : 'red'
               ].join(' ')}
                 onClick={(e) => this.clickSlot(e, xIndex, yIndex)} >

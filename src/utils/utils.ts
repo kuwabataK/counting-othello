@@ -155,8 +155,8 @@ export function calcReverse(pointVal: number, arr: PointObj[], maxVal = 1000) {
       return arr
     }
 
-    // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
-    if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
+    // であった駒が上限値に達していた場合はひっくり返せないようにする
+    if (newArr[i].pointVal >= maxVal) {
       return arr
     }
 

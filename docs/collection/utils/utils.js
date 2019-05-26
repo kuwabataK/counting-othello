@@ -144,8 +144,8 @@ export function calcReverse(pointVal, arr, maxVal = 1000) {
         if (newArr[i].pointVal === 0) {
             return arr;
         }
-        // であった敵の駒が上限値に達していた場合はひっくり返せないようにする
-        if (newArr[i].pointVal >= maxVal && (newArr[i].pointVal + pointVal) % 2 === 1) {
+        // であった駒が上限値に達していた場合はひっくり返せないようにする
+        if (newArr[i].pointVal >= maxVal) {
             return arr;
         }
         // 自分の駒が見つかった場合は処理を中断して新しい配列を返す
